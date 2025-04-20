@@ -19,6 +19,7 @@ app.use(
       "http://localhost:5173",
       "https://atofon-admin.onrender.com",
       "https://atofon.vercel.app",
+      "https://atofonadmin.vercel.app",
     ],
   })
 );
