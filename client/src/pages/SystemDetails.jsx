@@ -10,7 +10,10 @@ const SystemDetails = ({ system, onEdit, onDelete }) => {
             Basic Information
           </h3>
           <DetailItem label="System Number" value={system.systemNumber} />
-          <DetailItem label="System Name" value={system.systemName || "-"} />
+          <DetailItem
+            label="System UserName"
+            value={system.systemName || "-"}
+          />
           <DetailItem label="System Password" value={system.password || "-"} />
           <DetailItem
             label="Status"
