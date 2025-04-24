@@ -17,9 +17,9 @@ const Navbar = () => {
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           <img
-            src="https://cdn-icons-png.freepik.com/256/15465/15465633.png?semt=ais_hybrid"
+            src="https://seller.atofon.com/atofon.svg"
             alt="Atofon Logo"
-            className="w-10"
+            className="w-22 h-auto cursor-pointer"
           />
         </Typography>
         <Box sx={{ display: "flex", gap: "1rem" }}>
