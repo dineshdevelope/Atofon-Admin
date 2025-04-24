@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import SystemForm from "./SystemForm";
 import SystemDetails from "./SystemDetails";
+import { AuthContext } from "../context/AuthContext";
+import API from "../services/api";
 
 const SystemList = () => {
+  const { user } = useContext(AuthContext);
   const [systems, setSystems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -19,9 +22,7 @@ const SystemList = () => {
 
   const fetchSystems = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/api/systems`
-      );
+      const response = await API.get("/api/systems");
       setSystems(response.data.data || []);
       setLoading(false);
     } catch (error) {
@@ -38,9 +39,7 @@ const SystemList = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this system?")) {
       try {
-        await axios.delete(
-          `${import.meta.env.VITE_BASE_URL}/api/systems/${id}`
-        );
+        const response = await API.delete(`/api/systems/${id}`);
         // Update UI immediately by filtering out the deleted system
         setSystems((prevSystems) =>
           prevSystems.filter((sys) => sys._id !== id)

@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import API from "../services/api"; // Assuming you have an API service set up
 
 const EmployeeCards = () => {
+  const { user } = useContext(AuthContext);
   const [employees, setEmployees] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -11,9 +14,8 @@ const EmployeeCards = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/api/employee`
-        );
+        const response = await API.get("/api/employee");
+
         setEmployees(response.data.data || []);
         setError("");
       } catch (err) {
@@ -123,7 +125,7 @@ const EmployeeCards = () => {
                 <span className="font-semibold">{employees.length}</span>
               </div>
 
-              <div className="w-full sm:w-auto">
+              {/*  <div className="w-full sm:w-auto">
                 <Link
                   to="/systems"
                   className="w-full sm:w-auto flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -142,7 +144,7 @@ const EmployeeCards = () => {
                   </svg>
                   System Details
                 </Link>
-              </div>
+              </div> */}
             </div>
 
             {/* Employee Cards Grid */}

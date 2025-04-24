@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import API from "../services/api"; // Adjust the import path as necessary
 
 const SystemForm = ({ system, onSuccess, handleFormClose }) => {
   const [formData, setFormData] = useState({
@@ -148,17 +149,15 @@ const SystemForm = ({ system, onSuccess, handleFormClose }) => {
     setLoading(true);
     try {
       if (system) {
-        const response = await axios.put(
-          `${import.meta.env.VITE_BASE_URL}/api/systems/${system._id}`,
-          formData
-        );
+        const response = await API.put(`/api/systems/${system._id}`, formData);
         toast.success("System updated successfully");
         onSuccess(response.data.data, false);
       } else {
-        const response = await axios.post(
+        /*  const response = await axios.post(
           `${import.meta.env.VITE_BASE_URL}/api/systems`,
           formData
-        );
+        ); */
+        const response = await API.post(`/api/systems`, formData);
         toast.success("System created successfully");
         onSuccess(response.data.data, true);
       }

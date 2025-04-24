@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AuthContext } from "../context/AuthContext";
+import API from "../services/api"; // Adjust the import path as necessary
 
 // Moved FormSection outside the main component
 const FormSection = ({ title, children }) => (
@@ -14,6 +16,7 @@ const FormSection = ({ title, children }) => (
 );
 
 const EmployeeForm = () => {
+  const { user } = useContext(AuthContext);
   const apiUrl = import.meta.env.VITE_BASE_URL;
   const cloudinaryName = import.meta.env.VITE_API_CLOUDNAME;
   const navigate = useNavigate();
@@ -239,9 +242,10 @@ const EmployeeForm = () => {
         profilePicture: uploadedProfileUrl,
       };
 
-      const response = await axios.post(`${apiUrl}/api/employee`, updatedData);
+      /*  const response = await axios.post(`${apiUrl}/api/employee`, updatedData); */
+      const response = await API.post("/api/employee", updatedData);
       toast.success("Employee created successfully!");
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Submit error", error.response?.data || error.message);
       toast.error(
@@ -561,7 +565,7 @@ const EmployeeForm = () => {
               <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3">
                 <button
                   type="button"
-                  onClick={() => navigate("/")}
+                  onClick={() => navigate("/dashboard")}
                   className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   Cancel

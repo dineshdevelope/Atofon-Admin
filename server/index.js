@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDB from "./DB/connectDB.js";
 import employeeRoute from "./routes/employee.route.js";
 import systemRoutes from "./routes/system.route.js";
+import authRoute from "./routes/auth.route.js";
 
 const app = express();
 dotenv.config();
@@ -26,6 +27,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/api/auth", authRoute);
 app.use("/api/employee", employeeRoute);
 app.use("/api/systems", systemRoutes);
 

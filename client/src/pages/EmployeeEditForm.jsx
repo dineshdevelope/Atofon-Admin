@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AuthContext } from "../context/AuthContext";
+import API from "../services/api";
 
 // Moved FormSection outside the main component
 const FormSection = ({ title, children }) => (
@@ -14,6 +16,7 @@ const FormSection = ({ title, children }) => (
 );
 
 const EmployeeEditForm = () => {
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
   const apiUrl = import.meta.env.VITE_BASE_URL;
   const cloudinaryName = import.meta.env.VITE_API_CLOUDNAME;
@@ -169,7 +172,7 @@ const EmployeeEditForm = () => {
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/api/employee/${id}`);
+        const response = await API.get(`/api/employee/${id}`);
         setFormData(response.data.data);
         setLoading(false);
       } catch (error) {
@@ -256,10 +259,7 @@ const EmployeeEditForm = () => {
         };
       }
 
-      const response = await axios.put(
-        `${apiUrl}/api/employee/${id}`,
-        updatedData
-      );
+      const response = await API.put(`/api/employee/${id}`, updatedData);
 
       toast.success("Employee updated successfully!");
       navigate(`/employee/${id}`);

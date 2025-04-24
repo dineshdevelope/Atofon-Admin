@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom"; // ⬅️ Import useParams
+import API from "../services/api";
 
 const SingleEmployeeDetail = () => {
+  const { user } = useContext(AuthContext);
   const { id } = useParams(); // ⬅️ Get ID from URL
   const navigate = useNavigate();
   const [employee, setEmployee] = useState(null); // ⬅️ Store a single employee object
@@ -14,13 +17,11 @@ const SingleEmployeeDetail = () => {
       return; // User cancelled the deletion
     }
     try {
-      const response = await axios.delete(
-        `${import.meta.env.VITE_BASE_URL}/api/employee/${id}`
-      );
+      const response = await API.delete(`/api/employee/${id}`);
       console.log("Employee deleted:", response.data);
       setEmployee(null); // Clear the employee data after deletion
       setError(null); // Clear any previous error messages
-      navigate("/"); // Redirect to the employee list page
+      navigate("/dashboard"); // Redirect to the employee list page
     } catch (error) {
       console.error("Error deleting employee:", error);
       setError(
@@ -31,20 +32,23 @@ const SingleEmployeeDetail = () => {
   };
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BASE_URL}/api/employee/${id}`)
-      .then((res) => {
-        setEmployee(res.data.data || null);
+    const fetchSingleEmployee = async () => {
+      try {
+        const response = await API.get(`/api/employee/${id}`);
+        setEmployee(response.data.data || null);
         setError(null);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch employee:", err);
+      } catch (error) {
+        console.error("Failed to fetch employee:", error);
         setError(
-          err.response?.data?.message ||
+          error.response?.data?.message ||
             "Something went wrong while fetching employee data."
         );
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSingleEmployee();
   }, [id]);
 
   return (
@@ -71,27 +75,6 @@ const SingleEmployeeDetail = () => {
 
       {!loading && employee && (
         <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 border border-gray-200 hover:shadow-xl transition">
-          {/*  <div className="flex items-center gap-4 mb-6">
-            <img
-              src={employee.profilePicture || "https://via.placeholder.com/100"}
-              alt={employee.name}
-              className="w-24 h-24 rounded-full object-cover border"
-            />
-            <div>
-              <h2 className="text-2xl font-bold text-gray-800">
-                {employee.name}
-              </h2>
-              <p className="text-sm text-gray-500">
-                {employee.role} - {employee.department}
-              </p>
-              <p className="text-xs text-gray-600">
-                Joined:{" "}
-                {employee.joiningDate
-                  ? new Date(employee.joiningDate).toLocaleDateString()
-                  : "N/A"}
-              </p>
-            </div>
-          </div> */}
           <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
             <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
               <img

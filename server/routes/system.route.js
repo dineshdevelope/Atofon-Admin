@@ -7,13 +7,16 @@ import {
   deleteSystem,
 } from "../controllers/system.controller.js";
 
+import auth from "../middleware/auth.js";
+import admin from "../middleware/auth.js";
+
 const router = express.Router();
 
 // System routes
-router.post("/", createSystem);
-router.get("/", getAllSystems);
-router.get("/:id", getSystemById);
-router.put("/:id", updateSystem);
-router.delete("/:id", deleteSystem);
+router.post("/", auth, admin, createSystem);
+router.get("/", auth, getAllSystems);
+router.get("/:id", auth, getSystemById);
+router.put("/:id", auth, admin, updateSystem);
+router.delete("/:id", auth, admin, deleteSystem);
 
 export default router;
