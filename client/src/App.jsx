@@ -21,14 +21,14 @@ function App() {
         <Navbar />
         <div className="container">
           <Routes>
-            <Route path="/dashboard" element={<EmployeeCards />} />
+            <Route path="/" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route
               path="/dashboard"
               element={
                 <PrivateRoute>
-                  <Dashboard />
+                  <EmployeeCards />
                 </PrivateRoute>
               }
             />
