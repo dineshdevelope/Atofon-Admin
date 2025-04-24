@@ -12,7 +12,6 @@ const PORT = process.env.PORT || 3000;
 
 connectDB();
 
-app.use(cors());
 app.use(
   cors({
     credentials: true,
@@ -22,6 +21,8 @@ app.use(
       "https://atofon.vercel.app",
       "https://atofonadmin.vercel.app",
     ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"], // ✅ fixed here
   })
 );
 app.use(express.json());
