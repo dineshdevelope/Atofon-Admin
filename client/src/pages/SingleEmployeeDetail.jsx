@@ -100,7 +100,11 @@ const SingleEmployeeDetail = () => {
               </div>
             </div>
 
-            <div className="flex gap-2 mt-4 md:mt-0">
+            <div
+              className /* "flex gap-2 mt-4 md:mt-0" */={
+                user.role === "admin" ? "flex gap-2 mt-4 md:mt-0" : "hidden"
+              }
+            >
               <button
                 className="text-black-600 text-sm bg-gray-300 hover:bg-gray-400 transition duration-300 px-4 py-2 rounded-lg font-small"
                 onClick={() => navigate(`/employee/edit/${employee._id}`)}

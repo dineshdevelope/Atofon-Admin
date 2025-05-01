@@ -1,6 +1,6 @@
 import React from "react";
 
-const SystemDetails = ({ system, onEdit, onDelete }) => {
+const SystemDetails = ({ system, onEdit, onDelete, user }) => {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -57,6 +57,7 @@ const SystemDetails = ({ system, onEdit, onDelete }) => {
                 : "-"
             }
           />
+
           <DetailItem label="Warranty" value={system.warranty || "-"} />
           <DetailItem
             label="Warranty Expiry"
@@ -125,13 +126,22 @@ const SystemDetails = ({ system, onEdit, onDelete }) => {
       <div className="flex justify-end space-x-3 pt-6 border-t">
         <button
           onClick={onDelete}
-          className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+          className /* "px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700" */={
+            user === "admin"
+              ? "px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+              : "hidden"
+          }
         >
           Delete System
         </button>
+        {}
         <button
           onClick={onEdit}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          className /* "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" */={
+            user === "admin"
+              ? "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              : "hidden"
+          }
         >
           Edit System
         </button>

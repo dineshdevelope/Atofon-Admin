@@ -32,8 +32,22 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route path="/systems" element={<SystemList />} />
-            <Route path="/employee/:id" element={<SingleEmployeeDetail />} />
+            <Route
+              path="/systems"
+              element={
+                <PrivateRoute>
+                  <SystemList />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/employee/:id"
+              element={
+                <PrivateRoute>
+                  <SingleEmployeeDetail />
+                </PrivateRoute>
+              }
+            />
             <Route path="/employee/new" element={<EmployeeForm />} />
             <Route path="/employee/edit/:id" element={<EmployeeEditForm />} />
           </Routes>

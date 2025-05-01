@@ -106,7 +106,11 @@ const SystemList = () => {
           />
           <button
             onClick={handleAddNew}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg whitespace-nowrap"
+            className /* "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg whitespace-nowrap" */={
+              user.role === "admin"
+                ? "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg whitespace-nowrap"
+                : "hidden"
+            }
           >
             Add New System
           </button>
@@ -180,13 +184,21 @@ const SystemList = () => {
                         </button>
                         <button
                           onClick={() => handleEdit(system)}
-                          className="text-yellow-600 hover:text-yellow-900 mr-4"
+                          className /* "text-yellow-600 hover:text-yellow-900 mr-4" */={
+                            user.role === "admin"
+                              ? "text-yellow-600 hover:text-yellow-900 mr-4"
+                              : "hidden"
+                          }
                         >
                           Edit
                         </button>
                         <button
                           onClick={() => handleDelete(system._id)}
-                          className="text-red-600 hover:text-red-900"
+                          className /* "text-red-600 hover:text-red-900" */={
+                            user.role === "admin"
+                              ? "text-red-600 hover:text-red-900"
+                              : "hidden"
+                          }
                         >
                           Delete
                         </button>
@@ -253,13 +265,21 @@ const SystemList = () => {
                     </button>
                     <button
                       onClick={() => handleEdit(system)}
-                      className="text-yellow-600 hover:text-yellow-900 text-sm"
+                      className /* "text-yellow-600 hover:text-yellow-900 text-sm" */={
+                        user.role === "admin"
+                          ? "text-yellow-600 hover:text-yellow-900 text-sm"
+                          : "hidden"
+                      }
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(system._id)}
-                      className="text-red-600 hover:text-red-900 text-sm"
+                      className /* "text-red-600 hover:text-red-900 text-sm" */={
+                        user.role === "admin"
+                          ? "text-red-600 hover:text-red-900 text-sm"
+                          : "hidden"
+                      }
                     >
                       Delete
                     </button>
@@ -345,6 +365,7 @@ const SystemList = () => {
                 system={currentSystem}
                 onEdit={() => handleEdit(currentSystem)}
                 onDelete={() => handleDelete(currentSystem._id)}
+                user={user.role}
               />
             </div>
           </div>

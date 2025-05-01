@@ -10,6 +10,7 @@ const EmployeeCards = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  console.log(user.role);
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -102,7 +103,11 @@ const EmployeeCards = () => {
               <div className="w-full sm:w-auto">
                 <button
                   onClick={() => navigate("/employee/new")}
-                  className="w-full sm:w-auto flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className /* "w-full sm:w-auto flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" */={
+                    user.role === "admin"
+                      ? "w-full sm:w-auto flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      : "hidden"
+                  }
                 >
                   <svg
                     className="-ml-1 mr-2 h-5 w-5"
