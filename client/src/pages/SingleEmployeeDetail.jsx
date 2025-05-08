@@ -1,27 +1,27 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate, useParams } from "react-router-dom"; // ⬅️ Import useParams
+import { useNavigate, useParams } from "react-router-dom";
 import API from "../services/api";
 
 const SingleEmployeeDetail = () => {
   const { user } = useContext(AuthContext);
-  const { id } = useParams(); // ⬅️ Get ID from URL
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [employee, setEmployee] = useState(null); // ⬅️ Store a single employee object
+  const [employee, setEmployee] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this employee?")) {
-      return; // User cancelled the deletion
+      return;
     }
     try {
       const response = await API.delete(`/api/employee/${id}`);
       console.log("Employee deleted:", response.data);
-      setEmployee(null); // Clear the employee data after deletion
-      setError(null); // Clear any previous error messages
-      navigate("/dashboard"); // Redirect to the employee list page
+      setEmployee(null);
+      setError(null);
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error deleting employee:", error);
       setError(
@@ -29,6 +29,10 @@ const SingleEmployeeDetail = () => {
           "Something went wrong while deleting the employee."
       );
     }
+  };
+
+  const handleSalaryDetails = () => {
+    navigate(`/salary/${id}`);
   };
 
   useEffect(() => {
@@ -101,7 +105,7 @@ const SingleEmployeeDetail = () => {
             </div>
 
             <div
-              className /* "flex gap-2 mt-4 md:mt-0" */={
+              className={
                 user.role === "admin" ? "flex gap-2 mt-4 md:mt-0" : "hidden"
               }
             >
@@ -110,6 +114,12 @@ const SingleEmployeeDetail = () => {
                 onClick={() => navigate(`/employee/edit/${employee._id}`)}
               >
                 Edit
+              </button>
+              <button
+                className="text-black-600 text-sm bg-blue-400 hover:bg-blue-500 transition duration-300 px-4 py-2 rounded-lg font-small"
+                onClick={handleSalaryDetails}
+              >
+                Salary Details
               </button>
               <button
                 className="text-black-600 text-sm bg-red-400 hover:bg-red-500 transition duration-300 px-4 py-2 rounded-lg font-small"
@@ -181,7 +191,7 @@ const SingleEmployeeDetail = () => {
 
             <div>
               <h4 className="font-semibold text-gray-800 mb-1">
-                🏦 Bank Details
+                � Bank Details
               </h4>
               <p>Bank: {employee.bankDetails?.bankName}</p>
               <p>Account No: {employee.bankDetails?.bankAccountNumber}</p>
