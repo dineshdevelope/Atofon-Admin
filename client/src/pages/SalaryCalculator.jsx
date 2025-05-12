@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import API from "../services/api";
+import { use } from "react";
 
 const SalaryCalculator = () => {
   const { id } = useParams();
@@ -9,6 +10,8 @@ const SalaryCalculator = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showResultModal, setShowResultModal] = useState(false);
+  const [key, setKey] = useState(null);
+  const [order, setOrder] = useState(null);
 
   useEffect(() => {
     const fetchSingleEmployee = async () => {
@@ -150,6 +153,56 @@ const SalaryCalculator = () => {
         duration: 0.5,
       },
     },
+  };
+
+  const paySalary = async (result) => {
+    //setShowResultModal(false);
+    const paymentData = {
+      amount: Math.floor(result.finalSalary),
+    };
+    console.log("Payment data:", paymentData.amount);
+
+    await API.get("/api/v1/getkey").then((response) => {
+      setKey(response.data.key);
+    });
+
+    await API.post("/api/v1/payment/process", {
+      amount: paymentData.amount,
+    })
+      .then((response) => {
+        console.log("Payment successful:", response.data);
+        setOrder(response.data.order);
+        console.log(order);
+      })
+      .catch((error) => {
+        console.error("Payment failed:", error);
+        alert("Failed to pay salary.");
+      });
+    console.log(key);
+    console.log(order);
+
+    const options = {
+      key, // Replace with your Razorpay key_id
+      amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency: "INR",
+      name: "Atofon Tech ",
+      description: "Razorpay Integration",
+      order_id: order.id, // This is the order_id created in the backend
+      callback_url: `${
+        import.meta.env.VITE_BASE_URL
+      }/api/v1/paymentVerification`, // Your success URL
+      prefill: {
+        name: employee.name,
+        email: employee.email,
+        contact: employee.phoneNumber,
+      },
+      theme: {
+        color: "#F37254",
+      },
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
   };
 
   if (loading) {
@@ -407,12 +460,18 @@ const SalaryCalculator = () => {
                   </span>
                 </div>
               </div>
-              <div className="mt-6 flex justify-end">
+              <div className="mt-6 flex justify-between">
                 <button
                   onClick={() => setShowResultModal(false)}
                   className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                 >
                   Close
+                </button>
+                <button
+                  onClick={() => paySalary(result)}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                >
+                  Pay Salary
                 </button>
               </div>
             </div>

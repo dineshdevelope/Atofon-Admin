@@ -5,6 +5,7 @@ import connectDB from "./DB/connectDB.js";
 import employeeRoute from "./routes/employee.route.js";
 import systemRoutes from "./routes/system.route.js";
 import authRoute from "./routes/auth.route.js";
+import payment from "./routes/razorpay.route.js";
 
 const app = express();
 dotenv.config();
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoute);
 app.use("/api/employee", employeeRoute);
 app.use("/api/systems", systemRoutes);
+app.use("/api/v1", payment);
 
 app.get("/", (req, res) => {
   res.send("Welcome to atofon server!");

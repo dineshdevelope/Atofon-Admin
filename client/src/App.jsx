@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import SalaryCalculator from "./pages/SalaryCalculator";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 function App() {
   return (
@@ -58,6 +59,9 @@ function App() {
               }
             />
             <Route path="/employee/new" element={<EmployeeForm />} />
+
+            <Route path="/paymentSuccess" element={<PaymentSuccess />} />
+
             <Route path="/employee/edit/:id" element={<EmployeeEditForm />} />
           </Routes>
         </div>
