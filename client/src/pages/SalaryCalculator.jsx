@@ -157,6 +157,7 @@ const SalaryCalculator = () => {
 
   const paySalary = async (result) => {
     //setShowResultModal(false);
+    setLoading(true);
     const paymentData = {
       amount: Math.floor(result.finalSalary),
     };
@@ -171,7 +172,8 @@ const SalaryCalculator = () => {
     })
       .then((response) => {
         console.log("Payment successful:", response.data);
-        setOrder(response.data.order);
+        const createdOrder = response.data.order;
+        setOrder(createdOrder);
         console.log(order);
       })
       .catch((error) => {
@@ -180,6 +182,7 @@ const SalaryCalculator = () => {
       });
     console.log(key);
     console.log(order);
+    setLoading(false);
 
     const options = {
       key, // Replace with your Razorpay key_id
