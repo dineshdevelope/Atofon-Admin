@@ -167,30 +167,23 @@ const SalaryCalculator = () => {
       setKey(response.data.key);
     });
 
-    await API.post("/api/v1/payment/process", {
+    const paymentRes = await API.post("/api/v1/payment/process", {
       amount: paymentData.amount,
-    })
-      .then((response) => {
-        console.log("Payment successful:", response.data);
-        const createdOrder = response.data.order;
-        setOrder(createdOrder);
-        console.log(order);
-      })
-      .catch((error) => {
-        console.error("Payment failed:", error);
-        alert("Failed to pay salary.");
-      });
-    console.log(key);
-    console.log(order);
+    });
+
+    /*  console.log(key);
+    console.log(order); */
+    const createdOrder = paymentRes.data.order;
+    setOrder(createdOrder);
     setLoading(false);
 
     const options = {
       key, // Replace with your Razorpay key_id
-      amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      amount: createdOrder.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
       currency: "INR",
       name: "Atofon Tech ",
       description: "Razorpay Integration",
-      order_id: order.id, // This is the order_id created in the backend
+      order_id: createdOrder.id, // This is the order_id created in the backend
       callback_url: `${
         import.meta.env.VITE_BASE_URL
       }/api/v1/paymentVerification`, // Your success URL
