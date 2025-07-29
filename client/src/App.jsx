@@ -14,6 +14,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import SalaryCalculator from "./pages/SalaryCalculator";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import Users from "./pages/Users";
 
 function App() {
   return (
@@ -55,6 +56,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <SalaryCalculator />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/users"
+              element={
+                <PrivateRoute>
+                  <Users />
                 </PrivateRoute>
               }
             />
