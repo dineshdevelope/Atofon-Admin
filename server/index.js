@@ -23,6 +23,7 @@ app.use(
       "https://atofon.vercel.app",
       "https://atofonadmin.vercel.app",
       "https://atofon.info",
+      "https://www.atofon.info",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"], // ✅ fixed here
