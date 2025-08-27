@@ -1,7 +1,8 @@
 import axios from "axios";
 
+const apiURL = import.meta.env.VITE_BASE_BACKEND_URL;
 const API = axios.create({
-  baseURL: "https://atofon-admin.vercel.app",
+  baseURL: `${apiURL}`,
 });
 
 API.interceptors.request.use((config) => {
